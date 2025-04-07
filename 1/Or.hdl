@@ -4,12 +4,15 @@
 // File name: projects/1/Or.hdl
 /**
  * Or gate:
- * if (a or b) out = 1, else out = 0 
+ * if (a or b) out = 1, else out = 0
  */
 CHIP Or {
     IN a, b;
     OUT out;
 
     PARTS:
-    //// Replace this comment with your code.
+    Not(in=a, out=notA);
+    Not(in=b, out=notB);
+    And(a=notA, b=notB, out=andNotAB);
+    Not(in=andNotAB, out=out);
 }
