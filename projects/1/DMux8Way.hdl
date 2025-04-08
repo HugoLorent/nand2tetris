@@ -18,5 +18,10 @@ CHIP DMux8Way {
     OUT a, b, c, d, e, f, g, h;
 
     PARTS:
-    //// Replace this comment with your code.
+    // First level: DMux based on sel[2]
+    DMux(in=in, sel=sel[2], a=abcdGroup, b=efghGroup);
+
+    // Second level: two DMux4Way based on sel[0..1]
+    DMux4Way(in=abcdGroup, sel=sel[0..1], a=a, b=b, c=c, d=d);
+    DMux4Way(in=efghGroup, sel=sel[0..1], a=e, b=f, c=g, d=h);
 }
