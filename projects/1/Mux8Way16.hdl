@@ -20,5 +20,10 @@ CHIP Mux8Way16 {
     OUT out[16];
 
     PARTS:
-    //// Replace this comment with your code.
+    // First level: two Mux4Way16 based on sel[0..1]
+    Mux4Way16(a=a, b=b, c=c, d=d, sel=sel[0..1], out=abcdMux);
+    Mux4Way16(a=e, b=f, c=g, d=h, sel=sel[0..1], out=efghMux);
+
+    // Second level: final selection based on sel[2]
+    Mux16(a=abcdMux, b=efghMux, sel=sel[2], out=out);
 }
