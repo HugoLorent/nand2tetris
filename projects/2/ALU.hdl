@@ -27,19 +27,50 @@
 // if (no == 1) sets out = !out   // bitwise not
 
 CHIP ALU {
-    IN  
-        x[16], y[16],  // 16-bit inputs        
+    IN
+        x[16], y[16],  // 16-bit inputs
         zx, // zero the x input?
         nx, // negate the x input?
         zy, // zero the y input?
         ny, // negate the y input?
         f,  // compute (out = x + y) or (out = x & y)?
         no; // negate the out output?
-    OUT 
+    OUT
         out[16], // 16-bit output
         zr,      // if (out == 0) equals 1, else 0
         ng;      // if (out < 0)  equals 1, else 0
 
     PARTS:
-    //// Replace this comment with your code.
+    // Process x according to zx
+    Mux16(a=x, b=false, sel=zx, out=xAfterZx);
+
+    // Process x according to nx
+    Not16(in=xAfterZx, out=notX);
+    Mux16(a=xAfterZx, b=notX, sel=nx, out=xFinal);
+
+    // Process y according to zy
+    Mux16(a=y, b=false, sel=zy, out=yAfterZy);
+
+    // Process y according to ny
+    Not16(in=yAfterZy, out=notY);
+    Mux16(a=yAfterZy, b=notY, sel=ny, out=yFinal);
+
+    // Compute x&y
+    And16(a=xFinal, b=yFinal, out=xAndY);
+
+    // Compute x+y
+    Add16(a=xFinal, b=yFinal, out=xPlusY);
+
+    // Select based on f
+    Mux16(a=xAndY, b=xPlusY, sel=f, out=fResult);
+
+    // Potentially negate the output
+    Not16(in=fResult, out=notFResult);
+    Mux16(a=fResult, b=notFResult, sel=no, out[0..15]=out, out[15]=ng, out[0..7]=outLow, out[8..15]=outHigh);
+
+    // Check if result is zero
+    Or8Way(in=outLow, out=orLow);
+    Or8Way(in=outHigh, out=orHigh);
+    Or(a=orLow, b=orHigh, out=orResult);
+    Not(in=orResult, out=zr);
 }
