@@ -30,7 +30,7 @@ cargo run -- <input_file.asm>
 For the VM Translator (Projects 7-8):
 ```bash
 cd projects/8/vm_translator
-cargo run -- <input_file.vm>
+cargo run -- <input_folder>
 ```
 
 ## Dependencies
