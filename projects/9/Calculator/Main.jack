@@ -1,0 +1,21 @@
+class Main {
+   function void main() {
+      var int a, b, result;
+      var char op;
+
+      let a = Keyboard.readInt("First number: ");
+      let b = Keyboard.readInt("Second number: ");
+      do Output.printString("Operation (+, -, *, /): ");
+      let op = Keyboard.readChar();
+
+      if (op = 43) { let result = a + b; }      // +
+      if (op = 45) { let result = a - b; }      // -
+      if (op = 42) { let result = a * b; }      // *
+      if (op = 47) { let result = a / b; }      // /
+
+      do Output.println();
+      do Output.printString("Result: ");
+      do Output.printInt(result);
+      return;
+   }
+}

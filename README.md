@@ -11,7 +11,7 @@ This repository contains my implementations and solutions for the NAND2Tetris co
 - `/05`: Computer Architecture - CPU and memory implementation
 - `/06`: Assembler - Translating assembly to machine code (implemented in Rust)
 - `/07-08`: VM Translator - Handling stack-based virtual machine (implemented in Rust)
-- `/09`: High-Level Language - Jack applications
+- `/09`: High-Level Language - Jack applications (basic calculator)
 - `/10-11`: Compiler - Jack language to VM code translation
 - `/12`: Operating System - OS implementation in Jack
 
