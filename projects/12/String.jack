@@ -10,54 +10,150 @@
  * string-oriented operations.
  */
 class String {
+    field Array chars;
+    field int maxLen;
+    field int currentLen;
 
     /** constructs a new empty string with a maximum length of maxLength
      *  and initial length of 0. */
     constructor String new(int maxLength) {
+        if (maxLength < 0) {
+            do Sys.error(14); // String maxLength must be non-negative
+        }
+
+        let maxLen = maxLength;
+        let currentLen = 0;
+
+        if (maxLength > 0) {
+            let chars = Array.new(maxLength);
+        } else {
+            let chars = 0;
+        }
+
+        return this;
     }
 
     /** Disposes this string. */
     method void dispose() {
+        if (~(chars = 0)) {
+            do chars.dispose();
+        }
+        do Memory.deAlloc(this);
+        return;
     }
 
     /** Returns the current length of this string. */
     method int length() {
+        return currentLen;
     }
 
     /** Returns the character at the j-th location of this string. */
     method char charAt(int j) {
+        if ((j < 0) | (j > (currentLen - 1))) {
+            do Sys.error(15); // String index out of bounds
+        }
+        return chars[j];
     }
 
     /** Sets the character at the j-th location of this string to c. */
     method void setCharAt(int j, char c) {
+        if ((j < 0) | (j > (currentLen - 1))) {
+            do Sys.error(16); // String index out of bounds
+        }
+        let chars[j] = c;
+        return;
     }
 
     /** Appends c to this string's end and returns this string. */
     method String appendChar(char c) {
+        if (currentLen = maxLen) {
+            do Sys.error(17); // String is full
+        }
+        let chars[currentLen] = c;
+        let currentLen = currentLen + 1;
+        return this;
     }
 
     /** Erases the last character from this string. */
     method void eraseLastChar() {
+        if (currentLen > 0) {
+            let currentLen = currentLen - 1;
+        }
+        return;
     }
 
-    /** Returns the integer value of this string, 
+    /** Returns the integer value of this string,
      *  until a non-digit character is detected. */
     method int intValue() {
+        var int i, result, digit;
+        var boolean isNegative;
+
+        let i = 0;
+        let result = 0;
+        let isNegative = false;
+
+        // Check for negative sign
+        if ((currentLen > 0) & (chars[0] = 45)) { // 45 is ASCII for '-'
+            let isNegative = true;
+            let i = 1;
+        }
+
+        while ((i < currentLen) & (chars[i] > 47) & (chars[i] < 58)) { // 48-57 are ASCII for '0'-'9'
+            let digit = chars[i] - 48;
+            let result = (result * 10) + digit;
+            let i = i + 1;
+        }
+
+        if (isNegative) {
+            return -result;
+        }
+        return result;
     }
 
     /** Sets this string to hold a representation of the given value. */
     method void setInt(int val) {
+        var int lastDigit, absVal;
+
+        let currentLen = 0;
+
+        if (val < 0) {
+            do appendChar(45); // '-' character
+            let absVal = -val;
+        } else {
+            let absVal = val;
+        }
+
+        do setIntHelper(absVal);
+        return;
+    }
+
+    /** Helper method for setInt to handle recursive digit extraction. */
+    method void setIntHelper(int val) {
+        var int lastDigit;
+
+        let lastDigit = val - ((val / 10) * 10);
+
+        if (val < 10) {
+            do appendChar(lastDigit + 48); // Convert to ASCII
+        } else {
+            do setIntHelper(val / 10);
+            do appendChar(lastDigit + 48);
+        }
+        return;
     }
 
     /** Returns the new line character. */
     function char newLine() {
+        return 128;
     }
 
     /** Returns the backspace character. */
     function char backSpace() {
+        return 129;
     }
 
     /** Returns the double quote (") character. */
     function char doubleQuote() {
+        return 34;
     }
 }
