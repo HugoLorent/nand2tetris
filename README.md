@@ -14,7 +14,7 @@ This repository contains my implementations and solutions for the NAND2Tetris co
 - `/09`: High-Level Language - Jack applications (basic calculator)
 - `/10`: Jack Analyzer - Lexical and syntax analysis (implemented in Rust)
 - `/11`: Jack Compiler - Complete Jack to VM code compiler (implemented in Rust)
-- `/12`: Operating System - OS implementation in Jack
+- `/12`: Operating System - Complete OS implementation in Jack
 
 ## Usage
 Each project folder contains the necessary implementation files along with test scripts provided by the course. To test implementations:
@@ -46,6 +46,13 @@ For the Jack Compiler (Project 11):
 cd projects/11/jack_compiler
 cargo run -- <input_file.jack or input_folder>
 # Generates VM code (.vm), tokenization (.T.xml) and syntax analysis (.xml) files in output/ folder
+```
+
+For the Operating System (Project 12):
+```bash
+cd projects/11/jack_compiler
+cargo run -- ../12/
+# Compiles all OS classes to VM code in projects/12/output/
 ```
 
 ## Dependencies
